@@ -101,6 +101,12 @@ src = files(
     'main/java/com/traneptora/jxlatte/util/functional/ExceptionalSupplier.java',
     'main/java/com/traneptora/jxlatte/util/functional/FloatUnaryOperator.java',
     'main/java/com/traneptora/jxlatte/util/functional/FunctionalHelper.java',
+
+    # com.traneptora.jxlatte.awt
+    'main/java/com/traneptora/jxlatte/awt/ByteBufferInputStream.java',
+    'main/java/com/traneptora/jxlatte/awt/DecodeToBufferedImage.java',
+    'main/java/com/traneptora/jxlatte/awt/JXLImageReader.java',
+    'main/java/com/traneptora/jxlatte/awt/JXLImageReaderSpi.java',
 )
 
 res = structured_sources(
