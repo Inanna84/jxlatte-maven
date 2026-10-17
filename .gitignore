@@ -9,6 +9,11 @@ output.png
 # class files
 *.class
 
+#Eclipse
+.classpath
+.project
+.settings
+
 # test files
 /*.png
 /*.jxl
