@@ -14,4 +14,12 @@
     <packaging>jar</packaging>
     <name>jxlatte-lib</name>
     <description>Pure-Java JPEG XL decoder library</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

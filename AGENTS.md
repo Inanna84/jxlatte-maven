@@ -11,6 +11,7 @@ Pure-Java JPEG XL decoder (WIP). Parent `com.traneptora:jxlatte:0.1.0-SNAPSHOT` 
 ```sh
 mvn clean package   # lib + shaded CLI JAR
 mvn clean install   # also install both modules to local repo
+mvn test            # JUnit 5 (lib decode + CLI golden PNG); Meson does not run tests
 ```
 
 Meson:
@@ -26,17 +27,29 @@ mkdir build && cd build && meson setup ../ && ninja
 - ICC profiles (classpath root, CLI module): `jxlatte-cli/src/main/resources/{bt2020-d65-pq,bt709-d65-srgb}.icc.zz` — loaded via `PNGWriter.class.getResourceAsStream("/….icc.zz")`
 - CLI packages an uber-jar via `maven-shade-plugin` (includes `jxlatte-lib`)
 
+## Tests
+
+- **jxlatte-lib**: `JXLDecoderSamplesTest` — decode all `src/test/resources/samples/*.jxl` (copy of root `samples/`).
+- **jxlatte-cli**: `PNGWriterGoldenTest` — decode subset (incl. tiled `george-tiled` and HDR `sollevante-hdr`) → `PNGWriter` → byte-compare `src/test/resources/golden/*.png`.
+- Regen goldens after intentional PNGWriter changes:
+
+```sh
+mvn -pl jxlatte-cli test -Djxlatte.regenGoldens=true
+```
+
+Meson does **not** compile or run these tests.
+
 ## Meson gotcha
 
 `src/meson.build` lists **every** `.java` and resource by path under `jxlatte-lib` / `jxlatte-cli`. New/renamed sources must be added there or Meson omits them. Maven picks up each module’s `src/main/java` automatically.
 
 `util/ChebyschevApproximation.java` is in `jxlatte-lib` but **not** in the Meson list (Maven-only).
 
-## Verify (no automated tests)
-
-No `src/test` / Surefire suite. Smoke-check with samples:
+## Verify
 
 ```sh
+mvn test
+# optional CLI smoke:
 java -jar jxlatte-cli/target/jxlatte-cli-0.1.0-SNAPSHOT.jar samples/art.jxl /tmp/out.png
 # or after Meson: java -jar build/src/jxlatte-cli.jar samples/art.jxl /tmp/out.png
 ```

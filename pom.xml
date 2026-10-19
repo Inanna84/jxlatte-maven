@@ -27,7 +27,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-release.version>21</java-release.version>
         <java.version>1.${java-release.version}</java.version>
+        <junit.version>5.13.4</junit.version>
+        <surefire.version>3.5.4</surefire.version>
+        <jxlatte.regenGoldens>false</jxlatte.regenGoldens>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -42,6 +57,16 @@
                         <compilerArgs>
                             <arg>-Xlint</arg>
                         </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire.version}</version>
+                    <configuration>
+                        <systemPropertyVariables>
+                            <jxlatte.regenGoldens>${jxlatte.regenGoldens}</jxlatte.regenGoldens>
+                        </systemPropertyVariables>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -79,6 +104,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
